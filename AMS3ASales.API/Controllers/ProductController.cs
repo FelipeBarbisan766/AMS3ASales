@@ -19,5 +19,22 @@ namespace AMS3ASales.API.Controllers
         {
             return _context.Product.ToList();
         }
+        [HttpGet]
+        [Route("{id:Guid}")]
+        public ActionResult<Product> GetId(Guid id)
+        {
+            var product = _context.Product.FirstOrDefault(c => c.Id == id);
+            if (product == null) return NotFound();
+            return Ok(product);
+        }
+        [HttpPost]
+        public ActionResult Post(Product product) 
+        {
+            _context.Product.Add(product);
+            _context.SaveChanges();
+
+            return Ok();
+        }
+        
     }
 }
