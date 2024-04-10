@@ -9,5 +9,7 @@
         public double Stock {  get; set; } 
         public string ImageURL { get; set; }
         public DateTime CreateDate { get; set; }
+        public Category Category { get; set; } //Propriedade de Navegação
+        public Guid CategoryId { get; set; }
     }
 }
