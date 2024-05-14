@@ -1,5 +1,6 @@
 ﻿using AMS3ASales.API.Context;
 using AMS3ASales.API.Domain;
+using AMS3ASales.API.Domain.Request;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -28,8 +29,17 @@ namespace AMS3ASales.API.Controllers
             return Ok(product);
         }
         [HttpPost]
-        public ActionResult Post(Product product) 
+        public ActionResult Post(ProductRequest productRequest) 
         {
+            var product = new Product()
+            {
+                Description = productRequest.Description,
+                Price = productRequest.Price,
+                Stock = productRequest.Stock,
+                ImageURL = productRequest.ImageURL,
+                CreateDate = DateTime.Now,
+                IsActive = true
+            };
             _context.Product.Add(product);
             _context.SaveChanges();
 

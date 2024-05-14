@@ -1,8 +1,10 @@
 ﻿using AMS3ASales.API.Context;
 using AMS3ASales.API.Domain;
+using AMS3ASales.API.Domain.Request;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace AMS3ASales.API.Controllers
 {
@@ -30,8 +32,12 @@ namespace AMS3ASales.API.Controllers
             return Ok(category);
         }
         [HttpPost]
-        public ActionResult Post(Category category) 
-        { 
+        public ActionResult Post(CategoryRequest categoryRequest){ 
+            var category = new Category(){ 
+                Description = categoryRequest.Description, 
+                ImageURL = categoryRequest.ImageURL,
+                IsActive = true
+            };
             _context.Category.Add(category);
             _context.SaveChanges();
             return Ok();
