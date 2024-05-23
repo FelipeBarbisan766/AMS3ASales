@@ -1,5 +1,6 @@
 ﻿using AMS3ASales.API.Context;
 using AMS3ASales.API.Domain;
+using AMS3ASales.API.Domain.DTO;
 using AMS3ASales.API.Domain.Request;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
@@ -18,9 +19,24 @@ namespace AMS3ASales.API.Controllers
             _context = context;
         }
         [HttpGet]
-        public ActionResult<IEnumerable<Category>> Get() 
+        public async Task<ActionResult<IEnumerable<CategoryDTO>>>  Get() 
         {
-            return _context.Category.ToList(); 
+            var categories = await _context.Category.ToListAsync();
+            if (categories == null)
+                return NotFound();
+
+            var response = new List<CategoryDTO>();
+            
+            foreach (var category in categories)
+            {
+                response.Add(new CategoryDTO
+                {
+                    Id = category.Id,
+                    Description = category.Description,
+                    ImageURL = category.ImageURL,
+                });
+            }
+                return Ok(response); 
         }
 
         [HttpGet]

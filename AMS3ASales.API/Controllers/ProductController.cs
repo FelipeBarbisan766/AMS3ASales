@@ -37,6 +37,7 @@ namespace AMS3ASales.API.Controllers
                 Price = productRequest.Price,
                 Stock = productRequest.Stock,
                 ImageURL = productRequest.ImageURL,
+                CategoryId = productRequest.CategoryId,
                 CreateDate = DateTime.Now,
                 IsActive = true
             };

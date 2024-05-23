@@ -6,5 +6,6 @@
         public double Price { get; set; }
         public double Stock { get; set; }
         public string ImageURL { get; set; }
+        public Guid CategoryId { get; set; }
     }
 }
