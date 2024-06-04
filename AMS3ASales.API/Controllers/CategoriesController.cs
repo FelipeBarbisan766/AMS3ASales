@@ -33,7 +33,7 @@ namespace AMS3ASales.API.Controllers
                 {
                     Id = category.Id,
                     Description = category.Description,
-                    ImageURL = category.ImageURL,
+                    ImageURL = category.ImageURL
                 });
             }
                 return Ok(response); 

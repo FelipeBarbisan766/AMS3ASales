@@ -1,8 +1,10 @@
 ﻿using AMS3ASales.API.Context;
 using AMS3ASales.API.Domain;
+using AMS3ASales.API.Domain.DTO;
 using AMS3ASales.API.Domain.Request;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace AMS3ASales.API.Controllers
 {
@@ -16,9 +18,26 @@ namespace AMS3ASales.API.Controllers
             _context = context;
         }
         [HttpGet]
-        public ActionResult<IEnumerable<Product>> Get()
+        public async Task<ActionResult<IEnumerable<ProductDTO>>> Get()
         {
-            return _context.Product.ToList();
+            var products = await _context.Product.ToListAsync();
+            if (products == null)
+                return NotFound();
+
+            var response = new List<ProductDTO>();
+
+            foreach (var product in products)
+            {
+                response.Add(new ProductDTO
+                {
+                    Id = product.Id,
+                    Description = product.Description,
+                    Price = product.Price,
+                    Stock = product.Stock,
+                    ImageURL = product.ImageURL
+                });
+            }
+            return Ok(response);
         }
         [HttpGet]
         [Route("{id:Guid}")]
