@@ -21,7 +21,7 @@ namespace AMS3ASales.API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<CategoryDTO>>>  Get() 
         {
-            var categories = await _context.Category.ToListAsync();
+            var categories = await _context.Category.Where(c => c.IsActive == true).ToListAsync();
             if (categories == null)
                 return NotFound();
 
@@ -56,7 +56,30 @@ namespace AMS3ASales.API.Controllers
             };
             _context.Category.Add(category);
             _context.SaveChanges();
-            return Ok();
+            return Ok();    
         }
+
+        [HttpPut("{id:Guid}")]
+        public IActionResult Put(Guid id, [FromBody] CategoryRequest categoryRequest)
+        {
+            var category = _context.Category.FirstOrDefault(c => c.Id == id);
+
+            category.Description = categoryRequest.Description;
+            category.ImageURL = categoryRequest.ImageURL;
+            _context.SaveChanges();     
+
+            return NoContent(); 
+        }
+        [HttpDelete("{id:Guid}")]
+        public IActionResult Delete(Guid id)
+        {
+            var category = _context.Category.FirstOrDefault(c => c.Id == id);
+
+            category.IsActive = false;
+            _context.SaveChanges();
+
+            return NoContent();
+        }
+
     }
 }

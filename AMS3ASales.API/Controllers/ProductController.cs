@@ -20,9 +20,10 @@ namespace AMS3ASales.API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ProductDTO>>> Get()
         {
-            var products = await _context.Product.ToListAsync();
+            var products = await _context.Product.Where(p => p.IsActive == true).ToListAsync();
             if (products == null)
                 return NotFound();
+
 
             var response = new List<ProductDTO>();
 
@@ -65,6 +66,28 @@ namespace AMS3ASales.API.Controllers
 
             return Ok();
         }
-        
+        [HttpPut("{id:Guid}")]
+        public IActionResult Put(Guid id, [FromBody] ProductRequest productRequest)
+        {
+            var product = _context.Product.FirstOrDefault(p => p.Id == id);
+            
+            product.Description = productRequest.Description;
+            product.Price = productRequest.Price;
+            product.Stock = productRequest.Stock;
+            product.ImageURL = productRequest.ImageURL;
+            _context.SaveChanges();
+            return NoContent();
+        }
+        [HttpDelete("{id:Guid}")]
+        public IActionResult Delete(Guid id)
+        {
+            var product = _context.Category.FirstOrDefault(p => p.Id == id);
+
+            product.IsActive = false;
+            _context.SaveChanges();
+
+            return NoContent();
+        }
+
     }
 }
