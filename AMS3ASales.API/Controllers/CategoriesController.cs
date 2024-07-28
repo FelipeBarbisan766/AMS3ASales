@@ -52,10 +52,10 @@ namespace AMS3ASales.API.Controllers
             var category = new Category(){ 
                 Description = categoryRequest.Description, 
                 ImageURL = categoryRequest.ImageURL,
-                IsActive = true
+                IsActive = true 
             };
             _context.Category.Add(category);
-            _context.SaveChanges();
+                _context.SaveChanges();
             return Ok();    
         }
 
