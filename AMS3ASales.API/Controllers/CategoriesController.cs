@@ -31,7 +31,6 @@ namespace AMS3ASales.API.Controllers
             {
                 response.Add(new CategoryDTO
                 {
-                    Id = category.Id,
                     Description = category.Description,
                     ImageURL = category.ImageURL
                 });
